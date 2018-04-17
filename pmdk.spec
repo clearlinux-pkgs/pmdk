@@ -4,15 +4,15 @@
 #
 Name     : pmdk
 Version  : 1.4
-Release  : 2
+Release  : 3
 URL      : https://github.com/pmem/pmdk/archive/1.4.tar.gz
 Source0  : https://github.com/pmem/pmdk/archive/1.4.tar.gz
 Summary  : libvmmalloc library from PMDK project
 Group    : Development/Tools
 License  : BSD-2-Clause BSD-3-Clause
 Requires: pmdk-bin
-Requires: pmdk-config
 Requires: pmdk-lib
+Requires: pmdk-data
 Requires: pmdk-doc
 Requires: pmdk-dev
 BuildRequires : doxygen
@@ -24,18 +24,18 @@ The scripts found here are used during library development.
 %package bin
 Summary: bin components for the pmdk package.
 Group: Binaries
-Requires: pmdk-config
+Requires: pmdk-data
 
 %description bin
 bin components for the pmdk package.
 
 
-%package config
-Summary: config components for the pmdk package.
-Group: Default
+%package data
+Summary: data components for the pmdk package.
+Group: Data
 
-%description config
-config components for the pmdk package.
+%description data
+data components for the pmdk package.
 
 
 %package dev
@@ -43,6 +43,7 @@ Summary: dev components for the pmdk package.
 Group: Development
 Requires: pmdk-lib
 Requires: pmdk-bin
+Requires: pmdk-data
 Provides: pmdk-devel
 
 %description dev
@@ -60,6 +61,7 @@ doc components for the pmdk package.
 %package lib
 Summary: lib components for the pmdk package.
 Group: Libraries
+Requires: pmdk-data
 
 %description lib
 lib components for the pmdk package.
@@ -73,13 +75,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1524005410
+export SOURCE_DATE_EPOCH=1524006029
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1524005410
+export SOURCE_DATE_EPOCH=1524006029
 rm -rf %{buildroot}
-%make_install prefix=/usr
+%make_install prefix=/usr bashcompdir=/usr/share/bash-completion/completions
 
 %files
 %defattr(-,root,root,-)
@@ -88,9 +90,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/bin/pmempool
 
-%files config
+%files data
 %defattr(-,root,root,-)
-%config /usr/etc/bash_completion.d/pmempool.sh
+/usr/share/bash-completion/completions/pmempool.sh
 
 %files dev
 %defattr(-,root,root,-)

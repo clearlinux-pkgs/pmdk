@@ -4,7 +4,7 @@
 #
 Name     : pmdk
 Version  : 1.4
-Release  : 3
+Release  : 4
 URL      : https://github.com/pmem/pmdk/archive/1.4.tar.gz
 Source0  : https://github.com/pmem/pmdk/archive/1.4.tar.gz
 Summary  : libvmmalloc library from PMDK project

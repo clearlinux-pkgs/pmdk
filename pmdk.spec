@@ -4,7 +4,7 @@
 #
 Name     : pmdk
 Version  : 1.4
-Release  : 4
+Release  : 5
 URL      : https://github.com/pmem/pmdk/archive/1.4.tar.gz
 Source0  : https://github.com/pmem/pmdk/archive/1.4.tar.gz
 Summary  : libvmmalloc library from PMDK project
@@ -14,7 +14,6 @@ Requires: pmdk-bin
 Requires: pmdk-lib
 Requires: pmdk-data
 Requires: pmdk-doc
-Requires: pmdk-dev
 BuildRequires : doxygen
 
 %description
@@ -75,11 +74,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1524006029
+export SOURCE_DATE_EPOCH=1527806670
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1524006029
+export SOURCE_DATE_EPOCH=1527806670
 rm -rf %{buildroot}
 %make_install prefix=/usr bashcompdir=/usr/share/bash-completion/completions
 

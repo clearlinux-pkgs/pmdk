@@ -4,7 +4,7 @@
 #
 Name     : pmdk
 Version  : 1.5.1
-Release  : 12
+Release  : 13
 URL      : https://github.com/pmem/pmdk/archive/1.5.1.tar.gz
 Source0  : https://github.com/pmem/pmdk/archive/1.5.1.tar.gz
 Summary  : libvmmalloc library from PMDK project
@@ -27,7 +27,6 @@ Summary: bin components for the pmdk package.
 Group: Binaries
 Requires: pmdk-data = %{version}-%{release}
 Requires: pmdk-license = %{version}-%{release}
-Requires: pmdk-man = %{version}-%{release}
 
 %description bin
 bin components for the pmdk package.
@@ -48,6 +47,7 @@ Requires: pmdk-lib = %{version}-%{release}
 Requires: pmdk-bin = %{version}-%{release}
 Requires: pmdk-data = %{version}-%{release}
 Provides: pmdk-devel = %{version}-%{release}
+Requires: pmdk = %{version}-%{release}
 
 %description dev
 dev components for the pmdk package.
@@ -81,24 +81,29 @@ man components for the pmdk package.
 
 %prep
 %setup -q -n pmdk-1.5.1
+cd %{_builddir}/pmdk-1.5.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1550788233
-export LDFLAGS="${LDFLAGS} -fno-lto"
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604605388
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1550788233
+export SOURCE_DATE_EPOCH=1604605388
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pmdk
-cp LICENSE %{buildroot}/usr/share/package-licenses/pmdk/LICENSE
-cp src/jemalloc/COPYING %{buildroot}/usr/share/package-licenses/pmdk/src_jemalloc_COPYING
-cp src/windows/getopt/LICENSE.txt %{buildroot}/usr/share/package-licenses/pmdk/src_windows_getopt_LICENSE.txt
+cp %{_builddir}/pmdk-1.5.1/LICENSE %{buildroot}/usr/share/package-licenses/pmdk/4b07e66cc7925c2a6e0c68d25b78f90c9be4fc68
+cp %{_builddir}/pmdk-1.5.1/src/jemalloc/COPYING %{buildroot}/usr/share/package-licenses/pmdk/3dbfb3fe97c5e5d656cd3ee22d970e7e73a7a6c6
+cp %{_builddir}/pmdk-1.5.1/src/windows/getopt/LICENSE.txt %{buildroot}/usr/share/package-licenses/pmdk/b37189216d7244b1bfd4a8c1e73085469c2ba9a6
 %make_install prefix=/usr bashcompdir=/usr/share/bash-completion/completions
 
 %files
@@ -128,7 +133,10 @@ cp src/windows/getopt/LICENSE.txt %{buildroot}/usr/share/package-licenses/pmdk/s
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/libpmem.h
+/usr/include/libpmemblk.h
+/usr/include/libpmemlog.h
+/usr/include/libpmemobj.h
 /usr/include/libpmemobj/action.h
 /usr/include/libpmemobj/action_base.h
 /usr/include/libpmemobj/atomic.h
@@ -145,6 +153,9 @@ cp src/windows/getopt/LICENSE.txt %{buildroot}/usr/share/package-licenses/pmdk/s
 /usr/include/libpmemobj/tx.h
 /usr/include/libpmemobj/tx_base.h
 /usr/include/libpmemobj/types.h
+/usr/include/libpmempool.h
+/usr/include/libvmem.h
+/usr/include/libvmmalloc.h
 /usr/lib64/libpmem.so
 /usr/lib64/libpmemblk.so
 /usr/lib64/libpmemlog.so
@@ -475,9 +486,9 @@ cp src/windows/getopt/LICENSE.txt %{buildroot}/usr/share/package-licenses/pmdk/s
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/pmdk/LICENSE
-/usr/share/package-licenses/pmdk/src_jemalloc_COPYING
-/usr/share/package-licenses/pmdk/src_windows_getopt_LICENSE.txt
+/usr/share/package-licenses/pmdk/3dbfb3fe97c5e5d656cd3ee22d970e7e73a7a6c6
+/usr/share/package-licenses/pmdk/4b07e66cc7925c2a6e0c68d25b78f90c9be4fc68
+/usr/share/package-licenses/pmdk/b37189216d7244b1bfd4a8c1e73085469c2ba9a6
 
 %files man
 %defattr(0644,root,root,0755)
